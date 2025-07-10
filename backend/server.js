@@ -26,3 +26,15 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
+let cart = []; 
+
+app.post("/cart/add", (req, res) => {
+  const { productId } = req.body;
+  const product = products.find(p => p.id === productId);
+  if (product) {
+    cart.push(product);
+    res.json({ message: "Added to cart", cart });
+  } else {
+    res.status(404).json({ message: "Product not found" });
+  }
+});
