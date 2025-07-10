@@ -20,3 +20,22 @@ fetch("http://localhost:5000/products")
   .catch(error => {
     console.error("Error fetching products:", error);
   });
+
+function addToCart(productId) {
+  fetch("http://localhost:5000/cart/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ productId: productId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Item added to cart!");
+    console.log(data);
+  })
+  .catch(err => {
+    console.error("Error adding to cart:", err);
+  });
+}
+
