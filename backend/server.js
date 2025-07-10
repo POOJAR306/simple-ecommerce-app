@@ -73,16 +73,12 @@ app.get("/cart", async (req, res) => {
 });
 
 //Remove from Cart Functionality
-app.delete("/cart/remove/:id", (req, res) => {
-  const productId = parseInt(req.params.id);
-  const index = cart.findIndex(p => p.id === productId);
-  if (index !== -1) {
-    cart.splice(index, 1); // remove the item from cart
-    res.json({ message: "Item removed from cart", cart });
-  } else {
-    res.status(404).json({ message: "Item not found in cart" });
-  }
+app.delete("/cart/remove/:id", async (req, res) => {
+  const productId = req.params.id;
+  await CartItem.findOneAndDelete({ productId });
+  res.json({ message: "Item removed from cart" });
 });
+
 
 // Start server
 app.listen(PORT, () => {
