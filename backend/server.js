@@ -1,9 +1,17 @@
+// ✅ Import modules
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
+require("dotenv").config();
+
+// ✅ Import MongoDB models
+const Product = require('./models/Product');
+const CartItem = require('./models/CartItem');
+
+// ✅ Setup app
 const app = express();
-const PORT = 5000;
-const Product = require("./models/Product");
-const CartItem = require("./models/CartItem");
+app.use(cors());
+app.use(express.json());
 
 //Connect Mongoose in server.js
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
