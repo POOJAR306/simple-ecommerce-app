@@ -54,6 +54,18 @@ app.get("/cart", (req, res) => {
   res.json(cart);
 });
 
+//Remove from Cart Functionality
+app.delete("/cart/remove/:id", (req, res) => {
+  const productId = parseInt(req.params.id);
+  const index = cart.findIndex(p => p.id === productId);
+  if (index !== -1) {
+    cart.splice(index, 1); // remove the item from cart
+    res.json({ message: "Item removed from cart", cart });
+  } else {
+    res.status(404).json({ message: "Item not found in cart" });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
