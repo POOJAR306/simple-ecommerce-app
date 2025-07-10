@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const PORT = 5000;
+const Product = require("./models/Product");
+const CartItem = require("./models/CartItem");
+
 //Connect Mongoose in server.js
 const mongoose = require("mongoose");
 require("dotenv").config();
