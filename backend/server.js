@@ -47,14 +47,21 @@ app.get("/products", async (req, res) => {
 });
 
 // Add to cart
-app.post("/cart/add", (req, res) => {
+app.post("/cart/add", async (req, res) => {
   const { productId } = req.body;
-  const product = products.find(p => p.id === productId);
-  if (product) {
-    cart.push(product);
-    res.json({ message: "Added to cart", cart });
-  } else {
-    res.status(404).json({ message: "Product not found" });
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const cartItem = new CartItem({ productId });
+    await cartItem.save();
+
+    res.json({ message: "Item added to cart" });
+  } catch (err) {
+    res.status(500).json({ message: "Error adding to cart" });
   }
 });
 
