@@ -66,8 +66,10 @@ app.post("/cart/add", async (req, res) => {
 });
 
 // 🔹 View cart route
-app.get("/cart", (req, res) => {
-  res.json(cart);
+app.get("/cart", async (req, res) => {
+  const cartItems = await CartItem.find().populate("productId");
+  const products = cartItems.map(item => item.productId);
+  res.json(products);
 });
 
 //Remove from Cart Functionality
