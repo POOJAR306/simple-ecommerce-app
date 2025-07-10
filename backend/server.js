@@ -8,6 +8,7 @@ require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
+require("dotenv").config();
 
 // Dummy product data
 const products = [
