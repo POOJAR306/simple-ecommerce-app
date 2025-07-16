@@ -18,8 +18,8 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log("✅ MongoDB Connected"))
-.catch(err => console.error("❌ Mongo Error", err));
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.error("Mongo Error", err));
 
 // ROUTES
 
@@ -38,7 +38,7 @@ app.get("/products/:id", async (req, res) => {
   res.json(product);
 });
 
-// ✅ Add to cart with quantity management
+// Add to cart with quantity management
 app.post('/cart', async (req, res) => {
   const { productId } = req.body;
 
@@ -62,7 +62,7 @@ app.post('/cart', async (req, res) => {
   }
 });
 
-// ➕ PUT: Update quantity of item in cart
+//  PUT: Update quantity of item in cart
 app.put("/cart/update/:productId", async (req, res) => {
   const { quantity } = req.body;
 
@@ -80,7 +80,7 @@ app.put("/cart/update/:productId", async (req, res) => {
   }
 });
 
-// 💰 Get total cart price
+// Get total cart price
 app.get("/cart/total", async (req, res) => {
   const items = await CartItem.find();
   let total = 0;
@@ -94,13 +94,13 @@ app.get("/cart/total", async (req, res) => {
   res.json({ total });
 });
 
-// 🧹 Clear entire cart
+// Clear entire cart
 app.delete("/cart/clear", async (req, res) => {
   await CartItem.deleteMany({});
   res.json({ message: "Cart cleared successfully!" });
 });
 
-// ✅ Start server last — do NOT put routes inside this
+// Start server last — do NOT put routes inside this
 app.listen(5000, () => {
-  console.log("🚀 Server running on http://localhost:5000");
+  console.log("Server running on http://localhost:5000");
 });
