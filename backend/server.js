@@ -62,6 +62,24 @@ app.post('/cart', async (req, res) => {
   }
 });
 
+// ➕ PUT: Update quantity of item in cart
+app.put("/cart/update/:productId", async (req, res) => {
+  const { quantity } = req.body;
+
+  try {
+    const item = await CartItem.findOne({ productId: req.params.productId });
+
+    if (!item) return res.status(404).json({ message: "Item not found in cart" });
+
+    item.quantity = quantity;
+    await item.save();
+
+    res.json({ message: "Cart quantity updated" });
+  } catch (err) {
+    res.status(500).json({ message: "Error updating cart quantity" });
+  }
+});
+
 // ✅ Start server last — do NOT put routes inside this
 app.listen(5000, () => {
   console.log("🚀 Server running on http://localhost:5000");
