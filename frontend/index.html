@@ -11,36 +11,12 @@
   </style>
 </head>
 <body>
-  <h1>🛍️ Products</h1>
+  
+  <h2>Products</h2>
   <div id="products"></div>
-  <script>
-    // Fetch products from backend
-    fetch('http://localhost:5000/products')
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById('products');
-        data.forEach(p => {
-          container.innerHTML += `
-            <div class="product">
-              <h2>${p.name}</h2>
-              <img src="${p.image}" alt="${p.name}">
-              <p>₹${p.price}</p>
-              <button onclick="addToCart('${p._id}')">Add to Cart</button>
-            </div>
-          `;
-        });
-      });
 
-    // Add to cart
-    function addToCart(productId) {
-      fetch('http://localhost:5000/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId })
-      })
-      .then(res => res.json())
-      .then(data => alert(data.message));
-    }
-  </script>
-</body>
-</html>
+  <h2>Your Cart</h2>
+  <div id="cart"></div>
+
+  <h3>Total: ₹<span id="total">0</span></h3>
+  <button onclick="clearCart()">Clear Cart</button>
