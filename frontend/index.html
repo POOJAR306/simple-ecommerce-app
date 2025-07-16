@@ -39,3 +39,17 @@
           `;
         });
       });
+
+      // Add to cart
+    function addToCart(productId) {
+      fetch(`${API}/cart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        loadCart(); // Refresh cart
+      });
+    }
