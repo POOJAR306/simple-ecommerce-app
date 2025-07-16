@@ -90,7 +90,10 @@
         });
     }
     // Load cart on page load
-    loadCart();
+    window.onload = () => {
+      loadCart(); // load products already there in cart
+    };
+
   </script>
 
 </body>
