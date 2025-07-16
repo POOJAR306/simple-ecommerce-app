@@ -38,28 +38,31 @@ app.get("/products/:id", async (req, res) => {
   res.json(product);
 });
 
-// Add item to cart
-app.post("/cart", async (req, res) => {
-  const newItem = new CartItem(req.body);
-  await newItem.save();
-  res.status(201).json({ message: 'Item added to cart' });
+// ✅ Add to cart with quantity management
+app.post('/cart', async (req, res) => {
+  const { productId } = req.body;
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    const existingItem = await CartItem.findOne({ productId });
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+      await existingItem.save();
+      return res.json({ message: "Quantity updated in cart" });
+    } else {
+      const newItem = new CartItem({ productId, quantity: 1 });
+      await newItem.save();
+      return res.status(201).json({ message: "Item added to cart" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Error adding to cart" });
+  }
 });
 
-// Get all cart items
-app.get('/cart', async (req, res) => {
-  const items = await CartItem.find();
-  res.json(items);
-});
-
-// Remove from cart
-app.delete("/cart/remove/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
-  await CartItem.findOneAndDelete({ id });
-  res.json({ message: "Item removed from cart" });
-});
-
-// Start the server
+// ✅ Start server last — do NOT put routes inside this
 app.listen(5000, () => {
   console.log("🚀 Server running on http://localhost:5000");
-
 });
