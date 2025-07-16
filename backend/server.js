@@ -64,20 +64,19 @@ app.post("/cart/add", async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    const cartItem = new CartItem({ productId });
-    await cartItem.save();
+    const CartItem = require('./models/CartItem');
 
-    res.json({ message: "Item added to cart" });
-  } catch (err) {
-    res.status(500).json({ message: "Error adding to cart" });
-  }
+// Get all cart items
+app.get('/cart', async (req, res) => {
+  const items = await CartItem.find();
+  res.json(items);
 });
 
-// 🔹 View cart route
-app.get("/cart", async (req, res) => {
-  const cartItems = await CartItem.find().populate("productId");
-  const products = cartItems.map(item => item.productId);
-  res.json(products);
+// Add item to cart
+app.post('/cart', async (req, res) => {
+  const newItem = new CartItem(req.body);
+  await newItem.save();
+  res.status(201).json({ message: 'Item added to cart' });
 });
 
 //Remove from Cart Functionality
