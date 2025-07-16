@@ -1,41 +1,19 @@
 fetch("http://localhost:5000/products")
-  .then(response => response.json())
-  .then(products => {
-    console.log("Fetched Products:", products);
-    // Now loop through the products and show them on the page
-    const productContainer = document.getElementById("product-container");
-
-    products.forEach(product => {
-      const card = document.createElement("div");
-      card.classList.add("product-card");
-      card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" />
-        <h3>${product.name}</h3>
-        <p>₹${product.price}</p>
-        <button onclick="addToCart(${product.id})">Add to Cart</button>
-      `;
-      productContainer.appendChild(card);
-    });
-  })
-  .catch(error => {
-    console.error("Error fetching products:", error);
-  });
-
-function addToCart(productId) {
-  fetch("http://localhost:5000/cart/add", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ productId: productId })
-  })
   .then(res => res.json())
   .then(data => {
-    alert("Item added to cart!");
-    console.log(data);
-  })
-  .catch(err => {
-    console.error("Error adding to cart:", err);
-  });
-}
+    const container = document.getElementById("product-list");
 
+    data.forEach(product => {
+      const card = document.createElement("div");
+      card.innerHTML = `
+        <h3>${product.name}</h3>
+        <img src="${product.image}" width="150">
+        <p>₹${product.price}</p>
+      `;
+      card.style.border = "1px solid #ccc";
+      card.style.padding = "10px";
+      card.style.margin = "10px";
+      card.style.display = "inline-block";
+      container.appendChild(card);
+    });
+  });
