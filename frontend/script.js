@@ -17,3 +17,13 @@ fetch("http://localhost:5000/products")
       container.appendChild(card);
     });
   });
+function clearCart() {
+  fetch('http://localhost:5000/cart/clear', {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    loadCart(); // reload the cart
+  });
+}
