@@ -53,3 +53,29 @@
         loadCart(); // Refresh cart
       });
     }
+     // Load cart
+    function loadCart() {
+      fetch(`${API}/cart`)
+        .then(res => res.json())
+        .then(items => {
+          const cartDiv = document.getElementById('cart');
+          const totalSpan = document.getElementById('total');
+          cartDiv.innerHTML = '';
+          let total = 0;
+
+          items.forEach(item => {
+            total += item.quantity * item.price;
+            cartDiv.innerHTML += `
+              <div class="cart-item">
+                <p><strong>${item.name}</strong></p>
+                <p>Qty: ${item.quantity}</p>
+                <p>₹${item.price} each</p>
+                <button onclick="removeFromCart('${item.productId}')">Remove</button>
+              </div>
+            `;
+          });
+
+          totalSpan.textContent = total;
+        });
+    }
+
