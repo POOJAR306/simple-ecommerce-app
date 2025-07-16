@@ -80,6 +80,21 @@ app.put("/cart/update/:productId", async (req, res) => {
   }
 });
 
+// 💰 Get total cart price
+app.get("/cart/total", async (req, res) => {
+  const items = await CartItem.find();
+  let total = 0;
+
+  for (const item of items) {
+    const product = await Product.findById(item.productId);
+    if (product) {
+      total += product.price * item.quantity;
+    }
+  }
+
+  res.json({ total });
+});
+
 // ✅ Start server last — do NOT put routes inside this
 app.listen(5000, () => {
   console.log("🚀 Server running on http://localhost:5000");
