@@ -78,13 +78,15 @@
           totalSpan.textContent = total;
         });
     }
-    // Remove from cart
-    function removeFromCart(productId) {
-      fetch(`${API}/cart/remove/${productId}`, { method: 'DELETE' })
-        .then(res => res.json())
-        .then(data => {
-          alert(data.message);
-          loadCart();
+   // Remove item from cart
+  function removeFromCart(productId) {
+  fetch(`http://localhost:5000/cart/remove/${productId}`, {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    loadCart(); 
         });
     }
     // Load cart on page load
