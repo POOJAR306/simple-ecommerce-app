@@ -99,7 +99,25 @@ app.delete("/cart/clear", async (req, res) => {
   await CartItem.deleteMany({});
   res.json({ message: "Cart cleared successfully!" });
 });
+// Get all cart items with product info
+app.get('/cart', async (req, res) => {
+  try {
+    const items = await CartItem.find().populate('productId');
+    
+    // Format items for frontend
+    const formatted = items.map(item => ({
+      productId: item.productId._id,
+      name: item.productId.name,
+      price: item.productId.price,
+      image: item.productId.image,
+      quantity: item.quantity
+    }));
 
+    res.json(formatted);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to load cart" });
+  }
+});
 // Start server last — do NOT put routes inside this
 app.listen(5000, () => {
   console.log("Server running on http://localhost:5000");
