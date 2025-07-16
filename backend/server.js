@@ -94,15 +94,22 @@ app.get("/cart/total", async (req, res) => {
   res.json({ total });
 });
 
-// Clear all items from cart
-app.delete('/cart/clear', async (req, res) => {
+// Remove from cart using productId
+app.delete("/cart/remove/:productId", async (req, res) => {
   try {
-    await CartItem.deleteMany({});
-    res.json({ message: "🧹 Cart cleared successfully" });
+    const { productId } = req.params;
+    const result = await CartItem.findOneAndDelete({ productId });
+
+    if (!result) {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    res.json({ message: "❌ Item removed from cart" });
   } catch (err) {
-    res.status(500).json({ message: "❌ Failed to clear cart" });
+    res.status(500).json({ message: "❌ Error removing item from cart" });
   }
 });
+
 // Get all cart items with product info
 app.get('/cart', async (req, res) => {
   try {
