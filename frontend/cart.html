@@ -20,7 +20,9 @@
           container.innerHTML += `
             <div class="cart-item">
               <p><b>Product ID:</b> ${item.productId}</p>
+              <p><b>Quantity:</b> ${item.quantity}</p>
               <button onclick="removeFromCart('${item.productId}')">Remove</button>
+            </div>
             </div>
           `;
         });
