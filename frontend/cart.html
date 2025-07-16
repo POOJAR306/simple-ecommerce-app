@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html>
-<head><title>Cart</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+  <style>
+    .cart-item { border: 1px solid #aaa; margin: 10px; padding: 10px; }
+  </style>
+</head>
 <body>
   <h1>🛒 Your Cart</h1>
-  <div id="cart-container"></div>
-
+  <div id="cart"></div>
   <script>
+    // Fetch cart items
     fetch('http://localhost:5000/cart')
       .then(res => res.json())
       .then(data => {
-        const cartDiv = document.getElementById('cart-container');
+        const container = document.getElementById('cart');
         data.forEach(item => {
-          cartDiv.innerHTML += `
-            <div>
-              <h3>${item.name}</h3>
-              <img src="${item.image}" width="100" />
-              <p>₹${item.price}</p>
+          container.innerHTML += `
+            <div class="cart-item">
+              <p><b>Product ID:</b> ${item.productId}</p>
+              <button onclick="removeFromCart('${item.productId}')">Remove</button>
             </div>
           `;
         });
       });
+
+    function removeFromCart(productId) {
+      fetch(`http://localhost:5000/cart/remove/${productId}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        location.reload();
+      });
+    }
   </script>
 </body>
 </html>
