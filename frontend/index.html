@@ -78,4 +78,12 @@
           totalSpan.textContent = total;
         });
     }
-
+    // Remove from cart
+    function removeFromCart(productId) {
+      fetch(`${API}/cart/remove/${productId}`, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.message);
+          loadCart();
+        });
+    }
