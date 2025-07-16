@@ -91,8 +91,13 @@ app.get("/cart/total", async (req, res) => {
       total += product.price * item.quantity;
     }
   }
-
   res.json({ total });
+});
+
+// 🧹 Clear entire cart
+app.delete("/cart/clear", async (req, res) => {
+  await CartItem.deleteMany({});
+  res.json({ message: "Cart cleared successfully!" });
 });
 
 // ✅ Start server last — do NOT put routes inside this
