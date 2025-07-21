@@ -6,7 +6,7 @@ require("dotenv").config();
 
 // Import MongoDB models
 const Product = require('C:/Users/pooja/simple-ecommerce-app/backend/models/Product.js');
-const CartItem = require('C:/Users/pooja/simple-ecommerce-app/backend/models/CartItem.js');
+const CartItem = require("./models/CartItem");
 
 // Setup app
 const app = express();
