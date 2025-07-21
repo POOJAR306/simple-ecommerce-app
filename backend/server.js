@@ -5,7 +5,7 @@ const cors = require('cors');
 require("dotenv").config();
 
 // Import MongoDB models
-const Product = require('C:/Users/pooja/simple-ecommerce-app/backend/models/Product.js');
+const Product = require('./models/Product.js');
 const CartItem = require('./models/CartItem_temp.js');
 
 // Setup app
