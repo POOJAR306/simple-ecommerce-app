@@ -1,12 +1,17 @@
 import React from 'react';
+import { CartProvider } from './context/CartContext';
+import AddProduct from './components/AddProduct';
 import ProductList from './components/ProductList';
 
 function App() {
   return (
-    <div>
-      <h1>My E-Commerce App</h1>
-      <ProductList />
-    </div>
+    <CartProvider>
+      <div>
+        <h1>🛒 My Simple Cart</h1>
+        <ProductList />
+        <Cart />
+      </div>
+    </CartProvider>
   );
 }
 
